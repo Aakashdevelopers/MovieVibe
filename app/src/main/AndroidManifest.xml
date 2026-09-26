@@ -35,13 +35,33 @@
             android:name=".PlayerActivity"
             android:configChanges="orientation|screenSize|layoutDirection|screenLayout|smallestScreenSize"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.MovieVibe" />
 
         <activity
             android:name=".WebViewPlayerActivity"
             android:configChanges="orientation|screenSize|layoutDirection|screenLayout|smallestScreenSize"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.MovieVibe" />
+
+        <activity
+            android:name=".WatchHistoryActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".WatchlistActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".FavoritesActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".CategoryActivity"
+            android:exported="false" />
 
     </application>
 

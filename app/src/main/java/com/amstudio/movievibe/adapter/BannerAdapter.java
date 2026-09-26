@@ -9,20 +9,22 @@ import com.amstudio.movievibe.R;
 import com.amstudio.movievibe.databinding.ItemBannerBinding;
 import com.amstudio.movievibe.model.BannerItem;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerViewHolder> {
 
-    public interface OnBannerClickListener {
-        void onBannerClick(BannerItem banner);
+    public interface OnBannerActionListener {
+        void onPlayClick(BannerItem banner);
+        void onMyListClick(BannerItem banner);
     }
 
     private final List<BannerItem> banners = new ArrayList<>();
-    private final OnBannerClickListener listener;
+    private final OnBannerActionListener listener;
 
-    public BannerAdapter(OnBannerClickListener listener) {
+    public BannerAdapter(OnBannerActionListener listener) {
         this.listener = listener;
     }
 
@@ -60,17 +62,30 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerView
             this.binding = binding;
         }
 
-        public void bind(BannerItem banner, OnBannerClickListener listener) {
+        public void bind(BannerItem banner, OnBannerActionListener listener) {
             binding.tvBannerTitle.setText(banner.getContent() != null ? banner.getContent() : "");
 
             Glide.with(binding.ivBanner.getContext())
                     .load(banner.getImageUrl())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.ic_launcher_background)
                     .into(binding.ivBanner);
 
+            binding.btnBannerPlay.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onPlayClick(banner);
+                }
+            });
+
+            binding.btnBannerMyList.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onMyListClick(banner);
+                }
+            });
+
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
-                    listener.onBannerClick(banner);
+                    listener.onPlayClick(banner);
                 }
             });
         }

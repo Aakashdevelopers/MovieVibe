@@ -22,9 +22,8 @@
                 android:id="@+id/ivBackdrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"
-                android:contentDescription="@string/app_name" />
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerCrop" />
 
             <View
                 android:layout_width="match_parent"
@@ -121,6 +120,7 @@
                 android:textSize="12sp"
                 android:visibility="gone" />
 
+            <!-- Primary Play Action Row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -133,7 +133,9 @@
                     android:layout_height="52dp"
                     android:layout_marginEnd="6dp"
                     android:layout_weight="1"
+                    android:backgroundTint="#00A8E1"
                     android:text="Watch Native"
+                    android:textColor="#FFFFFF"
                     android:textSize="14sp"
                     app:cornerRadius="12dp"
                     app:icon="@android:drawable/ic_media_play"
@@ -153,6 +155,47 @@
                     app:icon="@android:drawable/ic_menu_compass"
                     app:iconGravity="textStart"
                     app:strokeColor="#FFD700" />
+
+            </LinearLayout>
+
+            <!-- Library Action Row (Watchlist & Favorites) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnWatchlist"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:text="+ Watchlist"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    app:cornerRadius="12dp"
+                    app:icon="@drawable/ic_bookmark"
+                    app:iconGravity="textStart"
+                    app:iconTint="#FFFFFF"
+                    app:strokeColor="#444444" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnFavorite"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:text="Favorite"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    app:cornerRadius="12dp"
+                    app:icon="@drawable/ic_heart_outline"
+                    app:iconGravity="textStart"
+                    app:iconTint="#00A8E1"
+                    app:strokeColor="#444444" />
 
             </LinearLayout>
 
@@ -195,7 +238,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
+                    android:clipToPadding="false"
+                    android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             </LinearLayout>
@@ -214,6 +258,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="#222222" />
+
+            <TextView
+                android:id="@+id/tvRecommendationHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="More Like This &amp; Similar Content"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRecommendations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 

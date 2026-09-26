@@ -11,11 +11,17 @@ public class StreamItem {
     @SerializedName("url")
     private String url;
 
+    @SerializedName("cdn_url")
+    private String cdnUrl;
+
     @SerializedName("format")
     private String format;
 
     @SerializedName("resolution")
     private String resolution;
+
+    @SerializedName("sign_cookie")
+    private String signCookie;
 
     @SerializedName("headers")
     private Map<String, String> headers;
@@ -25,7 +31,11 @@ public class StreamItem {
     }
 
     public String getUrl() {
-        return url;
+        return (cdnUrl != null && !cdnUrl.isEmpty()) ? cdnUrl : url;
+    }
+
+    public String getCdnUrl() {
+        return cdnUrl;
     }
 
     public String getFormat() {
@@ -34,6 +44,10 @@ public class StreamItem {
 
     public String getResolution() {
         return resolution;
+    }
+
+    public String getSignCookie() {
+        return signCookie;
     }
 
     public Map<String, String> getHeaders() {

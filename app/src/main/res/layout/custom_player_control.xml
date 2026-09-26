@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/controlsContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#66000000"
-    android:padding="16dp">
+    android:background="#80000000"
+    android:padding="12dp">
 
+    <!-- Top Bar -->
     <LinearLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
@@ -19,59 +21,94 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/app_name"
-            android:src="@android:drawable/ic_menu_revert"
+            android:src="@drawable/baseline_arrow_back_24"
             app:tint="#FFFFFF" />
 
         <TextView
             android:id="@+id/tvPlayerTitle"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="#FFFFFF"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/btnPlayerSettings"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_settings"
+            app:tint="#FFFFFF" />
+
+        <ImageButton
+            android:id="@+id/btnLock"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_lock"
+            app:tint="#FFFFFF" />
 
     </LinearLayout>
 
+    <!-- Center Playback Controls -->
     <LinearLayout
+        android:id="@+id/centerControls"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@id/exo_rew"
+            android:id="@+id/btnRewind10"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/app_name"
-            android:src="@android:drawable/ic_media_rew"
+            android:src="@drawable/baseline_arrow_back_24"
             app:tint="#FFFFFF" />
 
         <ImageButton
             android:id="@id/exo_play_pause"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_marginHorizontal="24dp"
+            android:layout_marginHorizontal="20dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/app_name"
             android:src="@android:drawable/ic_media_play"
             app:tint="#FFFFFF" />
 
         <ImageButton
-            android:id="@id/exo_ffwd"
+            android:id="@+id/btnForward10"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/app_name"
-            android:src="@android:drawable/ic_media_ff"
+            android:src="@drawable/ic_forward_10"
+            app:tint="#FFFFFF" />
+
+        <ImageButton
+            android:id="@+id/btnNextEpisode"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_next_episode"
+            android:visibility="gone"
             app:tint="#FFFFFF" />
 
     </LinearLayout>
 
+    <!-- Bottom Seek Bar & Controls -->
     <LinearLayout
+        android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -89,7 +126,10 @@
             android:id="@id/exo_progress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            app:bar_height="3dp"
+            app:played_color="#00A8E1"
+            app:scrubber_color="#00A8E1" />
 
         <TextView
             android:id="@id/exo_duration"
@@ -97,6 +137,26 @@
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
+
+        <ImageButton
+            android:id="@+id/btnResizeMode"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_crop"
+            app:tint="#FFFFFF" />
+
+        <ImageButton
+            android:id="@+id/btnFullscreen"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_fullscreen"
+            app:tint="#FFFFFF" />
 
     </LinearLayout>
 
