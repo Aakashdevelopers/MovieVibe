@@ -1,22 +1,415 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootPlayerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000">
+    android:background="#0F171E"
+    android:orientation="vertical">
 
-    <androidx.media3.ui.PlayerView
-        android:id="@+id/playerView"
+    <!-- Top Video Player Container -->
+    <FrameLayout
+        android:id="@+id/playerContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:controller_layout_id="@layout/custom_player_control"
-        app:show_buffering="when_playing"
-        app:use_controller="true" />
+        android:layout_height="220dp"
+        android:background="#000000">
 
-    <ProgressBar
-        android:id="@+id/playerLoading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        <androidx.media3.ui.PlayerView
+            android:id="@+id/playerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:controller_layout_id="@layout/custom_player_control"
+            app:show_buffering="when_playing"
+            app:use_controller="true" />
 
-</FrameLayout>
+        <ProgressBar
+            android:id="@+id/playerLoading"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:indeterminateTint="#00A8E1" />
+
+        <!-- Floating Unlock Screen Button (Visible when controls locked) -->
+        <ImageButton
+            android:id="@+id/btnUnlockScreen"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="top|start"
+            android:layout_margin="16dp"
+            android:background="#99000000"
+            android:contentDescription="@string/app_name"
+            android:padding="12dp"
+            android:src="@drawable/ic_unlock"
+            android:visibility="gone"
+            app:tint="#FFFFFF" />
+
+        <!-- Brightness Gesture Overlay HUD (Left Drag) -->
+        <LinearLayout
+            android:id="@+id/layoutBrightnessOverlay"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginStart="32dp"
+            android:background="#B3141414"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/app_name"
+                android:src="@android:drawable/ic_menu_compass"
+                app:tint="#00A8E1" />
+
+            <TextView
+                android:id="@+id/tvBrightnessLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="100%"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Volume Gesture Overlay HUD (Right Drag) -->
+        <LinearLayout
+            android:id="@+id/layoutVolumeOverlay"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="32dp"
+            android:background="#B3141414"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/app_name"
+                android:src="@android:drawable/ic_lock_silent_mode_off"
+                app:tint="#00A8E1" />
+
+            <TextView
+                android:id="@+id/tvVolumeLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="100%"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Error & Retry Overlay -->
+        <LinearLayout
+            android:id="@+id/layoutError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#CC1E1E1E"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/app_name"
+                android:src="@android:drawable/ic_dialog_alert"
+                app:tint="#00A8E1" />
+
+            <TextView
+                android:id="@+id/tvErrorMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Playback Error: Unable to play stream"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRetry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#00A8E1"
+                android:text="Retry Stream"
+                android:textColor="#FFFFFF"
+                app:cornerRadius="20dp" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <!-- Bottom Scrollable Details & Prime Video-Style Suggested Carousels -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollDetails"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Playing Movie Title -->
+            <TextView
+                android:id="@+id/tvPlayingTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!-- Prime Video Metadata Badges Bar -->
+            <LinearLayout
+                android:id="@+id/layoutPrimeBadges"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#22FFFFFF"
+                    android:paddingHorizontal="6dp"
+                    android:paddingVertical="2dp"
+                    android:text="4K UHD"
+                    android:textColor="#00A8E1"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:background="#22FFFFFF"
+                    android:paddingHorizontal="6dp"
+                    android:paddingVertical="2dp"
+                    android:text="HDR"
+                    android:textColor="#FFFFFF"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:background="#22FFFFFF"
+                    android:paddingHorizontal="6dp"
+                    android:paddingVertical="2dp"
+                    android:text="5.1"
+                    android:textColor="#FFFFFF"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:background="#22FFFFFF"
+                    android:paddingHorizontal="6dp"
+                    android:paddingVertical="2dp"
+                    android:text="U/A 16+"
+                    android:textColor="#CCCCCC"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:background="#22FFFFFF"
+                    android:paddingHorizontal="6dp"
+                    android:paddingVertical="2dp"
+                    android:text="CC"
+                    android:textColor="#CCCCCC"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+            <!-- Movie Info Subtitle -->
+            <TextView
+                android:id="@+id/tvPlayingInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Included with MovieVibe · High Speed Audio/Video"
+                android:textColor="#8197A4"
+                android:textSize="13sp" />
+
+            <!-- Synopsis / Overview -->
+            <TextView
+                android:id="@+id/tvPlayingOverview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:lineSpacingExtra="3dp"
+                android:maxLines="3"
+                android:text="Streaming now in high quality. Enjoy unlimited movies and series on MovieVibe."
+                android:textColor="#CCCCCC"
+                android:textSize="13sp" />
+
+            <!-- Prime Video Action Buttons Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPlayerWatchlist"
+                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="+ Watchlist"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    app:icon="@drawable/ic_bookmark"
+                    app:iconTint="#00A8E1"
+                    app:strokeColor="#2A3844" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPlayerFavorite"
+                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="Favorite"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    app:icon="@drawable/ic_heart_outline"
+                    app:iconTint="#00A8E1"
+                    app:strokeColor="#2A3844" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPlayerShare"
+                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="Share"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    app:icon="@android:drawable/ic_menu_share"
+                    app:iconTint="#00A8E1"
+                    app:strokeColor="#2A3844" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="#1B2530" />
+
+            <!-- In-Player Detailed Episodes Section (For Series / Anime) -->
+            <LinearLayout
+                android:id="@+id/layoutPlayerEpisodes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="12dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tvPlayerEpisodesHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Episodes"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPlayerEpisodes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:clipToPadding="false"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            </LinearLayout>
+
+            <!-- SECTION 1: Customers Also Watched -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Customers Also Watched"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCustomersAlsoWatched"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <!-- SECTION 2: Top Movies & Series in Category -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Top Movies &amp; Series in Category"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTopCategoryMovies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <!-- SECTION 3: Popular Hindi & Regional Hits -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Popular Hindi &amp; Regional Hits"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPopularHindiMovies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

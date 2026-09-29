@@ -1,37 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#121212">
+    android:background="#141414">
 
+    <!-- Top Header Bar (Netflix Style) -->
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#121212"
+        android:layout_alignParentTop="true"
+        android:background="#141414"
         app:elevation="0dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_height="56dp"
+            android:paddingHorizontal="16dp">
 
             <TextView
+                android:id="@+id/tvAppLogo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:text="MovieVibe"
                 android:textColor="#E50914"
-                android:textSize="26sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btnHistory"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/app_name"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_history"
+                    app:tint="#FFFFFF" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Content View Containers (Home / Search / My List / Profile) -->
+    <FrameLayout
+        android:id="@+id/contentFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavigation"
+        android:layout_below="@id/appBar">
+
+        <!-- 1. HOME TAB CONTAINER -->
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/containerHome"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Hero Banner -->
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/vpBanners"
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:scrollbars="none">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroupCategory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="16dp"
+                        app:singleLine="true"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipAll"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="🔥 Trending"
+                            android:textColor="#FFFFFF"
+                            app:chipBackgroundColor="@color/black"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipHindi"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🎙️ Hindi Dubbed"
+                            android:textColor="#FFFFFF"
+                            app:chipBackgroundColor="@color/black"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipBollywood"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🎬 Bollywood"
+                            android:textColor="#FFFFFF"
+                            app:chipBackgroundColor="@color/black"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipSouth"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⚡ South Movies"
+                            android:textColor="#FFFFFF"
+                            app:chipBackgroundColor="@color/black"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipAnime"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⚔️ Anime Hindi"
+                            android:textColor="#FFFFFF"
+                            app:chipBackgroundColor="@color/black"/>
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                </HorizontalScrollView>
+
+                <TextView
+                    android:id="@+id/tvSectionTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Trending Movies &amp; Series"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvMovies"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingHorizontal="10dp"
+                    android:visibility="visible"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="2" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="32dp" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <!-- 2. SEARCH TAB CONTAINER -->
+        <LinearLayout
+            android:id="@+id/containerSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="gone">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="12dp"
+                android:layout_height="46dp"
                 app:cardBackgroundColor="#1E1E1E"
-                app:cardCornerRadius="24dp"
+                app:cardCornerRadius="23dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp">
 
@@ -50,13 +210,13 @@
                         app:tint="#888888" />
 
                     <EditText
-                        android:id="@+id/etSearch"
+                        android:id="@+id/etSearchTab"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginStart="10dp"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:hint="Search movies or series..."
+                        android:hint="Search movies, shows, anime..."
                         android:imeOptions="actionSearch"
                         android:inputType="text"
                         android:maxLines="1"
@@ -65,7 +225,7 @@
                         android:textSize="14sp" />
 
                     <ImageButton
-                        android:id="@+id/btnClearSearch"
+                        android:id="@+id/btnClearSearchTab"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
@@ -78,115 +238,436 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-        </LinearLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/vpBanners"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="8dp" />
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tvSearchTabEmpty"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:scrollbars="none">
-
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroupCategory"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp"
-                    app:singleLine="true"
-                    app:singleSelection="true">
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipAll"
-                        style="@style/Widget.Material3.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="🔥 Trending"
-                        android:textColor="#FFFFFF" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipHindi"
-                        style="@style/Widget.Material3.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🇮🇳 Hindi Dubbed"
-                        android:textColor="#FFFFFF" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipBollywood"
-                        style="@style/Widget.Material3.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🎬 Bollywood"
-                        android:textColor="#FFFFFF" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipSouth"
-                        style="@style/Widget.Material3.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="⚡ South Movies"
-                        android:textColor="#FFFFFF" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipAnime"
-                        style="@style/Widget.Material3.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="⚔️ Anime Hindi"
-                        android:textColor="#FFFFFF" />
-
-                </com.google.android.material.chip.ChipGroup>
-
-            </HorizontalScrollView>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="32dp"
+                android:text="No results found matching your search"
+                android:textColor="#888888"
+                android:textSize="14sp"
+                android:visibility="gone" />
 
             <TextView
-                android:id="@+id/tvSectionTitle"
+                android:id="@+id/tvSearchTabTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="12dp"
-                android:layout_marginBottom="8dp"
-                android:text="Trending Movies &amp; Series"
+                android:text="🔥 Popular Suggestions"
                 android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvMovies"
+                android:id="@+id/rvSearchTabGrid"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
                 android:clipToPadding="false"
-                android:paddingHorizontal="10dp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2" />
 
-            <ProgressBar
-                android:id="@+id/progressBar"
+        </LinearLayout>
+
+        <!-- 3. MY LIST TAB CONTAINER -->
+        <FrameLayout
+            android:id="@+id/containerWatchlist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMainWatchlist"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:padding="6dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2" />
+
+            <LinearLayout
+                android:id="@+id/layoutEmptyMainWatchlist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginVertical="32dp" />
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_bookmark"
+                    app:tint="#555555" />
 
-    </androidx.core.widget.NestedScrollView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Your My List is Empty"
+                    android:textColor="#888888"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Save movies and series to watch them later"
+                    android:textColor="#555555"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <!-- 4. PROFILE TAB CONTAINER -->
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/containerProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="#1E1E1E"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
+                            app:cardBackgroundColor="#2A2A2A"
+                            app:cardCornerRadius="36dp"
+                            app:cardElevation="0dp"
+                            app:strokeColor="#E50914"
+                            app:strokeWidth="2dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/app_name"
+                                android:padding="14dp"
+                                android:src="@drawable/ic_person"
+                                app:tint="#E50914" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Guest User"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Local Profile • No Account Required"
+                            android:textColor="#888888"
+                            android:textSize="12sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:background="#161616"
+                            android:orientation="horizontal"
+                            android:paddingVertical="10dp">
+
+                            <LinearLayout
+                                android:id="@+id/layoutMainWatchlistStat"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:paddingVertical="4dp">
+
+                                <TextView
+                                    android:id="@+id/tvMainWatchlistCount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textColor="#E50914"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:text="My List"
+                                    android:textColor="#B0BEC5"
+                                    android:textSize="11sp" />
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:background="#333333" />
+
+                            <LinearLayout
+                                android:id="@+id/layoutMainFavoritesStat"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:paddingVertical="4dp">
+
+                                <TextView
+                                    android:id="@+id/tvMainFavoritesCount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textColor="#E50914"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:text="Favorites"
+                                    android:textColor="#B0BEC5"
+                                    android:textSize="11sp" />
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:background="#333333" />
+
+                            <LinearLayout
+                                android:id="@+id/layoutMainHistoryStat"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:paddingVertical="4dp">
+
+                                <TextView
+                                    android:id="@+id/tvMainHistoryCount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textColor="#E50914"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:text="History"
+                                    android:textColor="#B0BEC5"
+                                    android:textSize="11sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Options List -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="My Library"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardProfileFavorites"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    app:cardBackgroundColor="#1E1E1E"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="16dp">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/ic_heart_filled"
+                            app:tint="#E50914" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:layout_weight="1"
+                            android:text="My Favorites"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@android:drawable/ic_media_ff"
+                            app:tint="#555555" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardProfileHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    app:cardBackgroundColor="#1E1E1E"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="16dp">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@android:drawable/ic_menu_recent_history"
+                            app:tint="#00A8E1" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:layout_weight="1"
+                            android:text="Watch History"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@android:drawable/ic_media_ff"
+                            app:tint="#555555" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardProfileSettings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    app:cardBackgroundColor="#1E1E1E"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="16dp">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@android:drawable/ic_menu_preferences"
+                            app:tint="#B0BEC5" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:layout_weight="1"
+                            android:text="App Settings"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@android:drawable/ic_media_ff"
+                            app:tint="#555555" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </FrameLayout>
+
+    <!-- Bottom Navigation Bar (Netflix Style) -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="#121212"
+        app:elevation="8dp"
+        app:itemIconTint="@color/bottom_nav_color_selector"
+        app:itemTextColor="@color/bottom_nav_color_selector"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_menu" />
+
+</RelativeLayout>

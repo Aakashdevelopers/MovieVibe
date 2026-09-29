@@ -10,6 +10,7 @@ import com.amstudio.movievibe.R;
 import com.amstudio.movievibe.databinding.ItemMovieBinding;
 import com.amstudio.movievibe.model.MovieItem;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     public MovieAdapter(OnMovieClickListener listener) {
         this.listener = listener;
+    }
+
+    public List<MovieItem> getMoviesList() {
+        return movies;
     }
 
     public void setMovies(List<MovieItem> newMovies) {
@@ -72,8 +77,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
                 binding.tvRating.setVisibility(View.GONE);
             }
 
-            Glide.with(binding.ivPoster.getContext())
+            if (binding.ivPoster.getContext() instanceof android.app.Activity) {
+                android.app.Activity act = (android.app.Activity) binding.ivPoster.getContext();
+                if (act.isFinishing() || act.isDestroyed()) return;
+            }
+
+            Glide.with(binding.ivPoster.getContext().getApplicationContext())
                     .load(movie.getPosterUrl())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override(240, 360)
+                    .centerCrop()
                     .placeholder(R.drawable.ic_launcher_background)
                     .into(binding.ivPoster);
 
